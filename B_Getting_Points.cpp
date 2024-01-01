@@ -28,7 +28,7 @@ bool isSatisfy(int64_t x)
 void run_case() 
 {
     cin >> n >> P >> l >> t;
-    tasks_unlocked = (n+1)/7;
+    tasks_unlocked = (n+6)/7;
 	int64_t lo = 0;
 	int64_t hi = n;
 	int64_t mid;
