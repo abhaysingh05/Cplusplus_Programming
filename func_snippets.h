@@ -91,3 +91,40 @@ double nth_root(double x, int n, double eps = 1e-8)
     }
     return lo;
 }
+void merge(vector<int>& A, int l, int r, int mid)
+{
+    int l_size = mid - l + 1;
+    int r_size = r - mid;
+    int L_arr[l_size + 1];
+    int R_arr[r_size + 1];
+    L_arr[l_size] = R_arr[r_size] = INT32_MAX;
+    for (int i = 0; i < l_size; i++)
+    {
+        L_arr[i] = A[l + i];
+    }
+    for (int i = 0; i < r_size; i++)
+    {
+        R_arr[i] = A[mid + 1 + i];
+    }
+    int li = 0, ri = 0;
+    for (int i = l; i <= r; i++)
+    {
+        if (L_arr[li] <= R_arr[ri])
+        {
+            A[i] = L_arr[li++];
+        }
+        else
+        {
+            A[i] = R_arr[ri++];
+        }
+    }
+}
+void mergeSort(vector<int>& A, int l, int r)
+{
+    if (l == r)
+        return;
+    int mid = (l + r) / 2;
+    mergeSort(A, l, mid);
+    mergeSort(A, mid + 1, r);
+    merge(A, l, r, mid);
+}
