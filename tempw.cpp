@@ -15,68 +15,57 @@
 #include <random>
 #include <set>
 #include <vector>
-#include <unordered_map>
 using namespace std;
-const int64_t N = 510;
-const int64_t INF = 1e9+10;
-
-int64_t dist[N][N];
 
 void run_case() 
 {
-    vector<int64_t> ans;
-    for (int64_t i = 0; i < N; ++i)
+    int64_t m;
+    cin >> m;
+    vector<int64_t> cnt(30,0);
+    set<int64_t> possible; 
+    for (int64_t i = 0; i < m; ++i)
     {
-        for (int64_t j = 0; j < N; ++j)
+        int64_t x,y;
+        int64_t last_bit;
+        bool val = true;
+        cin >> x >> y;
+        if(x==1)
         {
-            dist[i][j] = INF;
-        }
-    }
-    int64_t n;
-    cin >> n;
-    for (int64_t i = 1; i <= n; ++i)
-    {
-        for (int64_t j = 1; j <= n; ++j)
-        {
-            int64_t wt;
-            cin >> wt;
-            dist[i][j] = wt;
-        }
-    }
-    vector<int64_t> v(n);
-    unordered_map<int64_t,int64_t> mp;
-    for (int64_t i = n-1; i >= 0; --i)
-    {
-        cin >> v[i];
-    }
-    mp[v[0]] = 1;
-    for (int64_t k = 0; k < n; ++k)
-    {
-        mp[v[k]] = 1;
-        for(int64_t i = 1;i <= n;++i)
-        {
-            for(int64_t j = 1; j <= n; ++j)
+            if(cnt[y] != (1<<y))
             {
-                dist[i][j] = min(dist[i][j],dist[i][v[k]]+dist[v[k]][j]);
-            }
-        }
-        int64_t sum = 0;
-        for(int64_t i = 1;i <= n;++i)
-        {
-            for(int64_t j = 1; j <= n; ++j)
+                cnt[y] += (1<<y);
+            }  
+            else
             {
-                if(dist[i][j] == INF || mp.find(i)==mp.end() || mp.find(j)==mp.end()) continue;
-                sum += dist[i][j];
-                // cout << "(" << v[k] << ") " <<i << "," << j << " - " <<dist[i][j] << endl;
+                for (int64_t i = y+1; i < 30; ++i)
+                {
+                    if(cnt[i]!= (1<<i))
+                    {
+                        cnt[i] += (1<<y);
+                        break;
+                    }
+                }
             }
+        } 
+        else
+        {
+            while(y > 0)
+            {
+                last_bit = y | 0;
+                y >>= 1;
+                if(cnt[last_bit]!=(1<<last_bit))
+                {
+                    val = false;
+                    break;
+                }
+            }
+            if(val) cout << "YES\n";
+            else cout << "NO\n";
+            val = true;
         }
-        ans.push_back(sum);
     }
-    for (int i = ans.size()-1; i >= 0; --i)
-    {
-        cout << ans[i] << ' ';
-    }
-    cout << "\n";
+    
+
 }
 
 int main() {
@@ -88,4 +77,4 @@ int main() {
 
     while (tests-- > 0)
         run_case();
-}
+}       
