@@ -20,13 +20,11 @@ const int N = 1e5 + 10;
 
 vector<int64_t> parent(N);
 vector<int64_t> size_set(N);
-multiset<int64_t> sizes;
 
 void Make(int64_t v)
 {
     parent[v] = v;
     size_set[v] = 1;
-    sizes.insert(1);
 }
 
 int64_t find(int64_t v)
@@ -36,12 +34,6 @@ int64_t find(int64_t v)
     return parent[v] = find(parent[v]);
 }
 
-void merge(int64_t a,int64_t b)
-{
-    sizes.erase(sizes.find(size_set[a]));
-    sizes.erase(sizes.find(size_set[b]));
-    sizes.insert(size_set[a]+size_set[b]);
-}
 void Union(int64_t a, int64_t b)
 {
     a = find(a);
@@ -51,7 +43,6 @@ void Union(int64_t a, int64_t b)
         if (size_set[a] < size_set[b])
             swap(a, b);
         parent[b] = a;
-        merge(a,b);
         size_set[a] += size_set[b];
     }
 }
@@ -64,15 +55,22 @@ void run_case()
     {
         Make(i);
     }
-    int64_t q;
-    cin >> q;
-    for (int64_t i = 0; i < q; ++i)
+    int64_t k;
+    cin >> k;
+    for (int64_t i = 0; i < k; ++i)
     {
-        int64_t x,y;
+        int64_t x, y;
         cin >> x >> y;
-        Union(x,y);
-        cout << *(prev(sizes.end())) - *(sizes.begin()) << "\n";
+        Union(x, y);
     }
+    for (int64_t i = 1; i <= n; ++i)
+    {
+        if (parent[i] == i)
+        {
+            ans++;
+        }
+    }
+    cout << ans << "\n";
 }
 
 int main()
