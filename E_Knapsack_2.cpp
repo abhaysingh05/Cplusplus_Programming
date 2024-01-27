@@ -19,19 +19,19 @@ using namespace std;
 vector<int> wt(105), val(105);
 vector<vector<int64_t>> dp(105, vector<int64_t>(100005, -1));
 
-int64_t maxProfit(int index, int wtLeft) {
+int64_t minWeight(int index, int valLeft) {
     // maxProfit(index, 0)
-    if (wtLeft == 0) return 0;
+    if (valLeft == 0) return 0;
     // maxProfit(-1,wtLeft)
-    if (index < 0) return 0;
+    if (index < 0) return 1e15;
 
-    if (dp[index][wtLeft] != -1) return dp[index][wtLeft];
+    if (dp[index][valLeft] != -1) return dp[index][valLeft];
 
     // When not choosing item at index
-    int64_t ans = maxProfit(index - 1, wtLeft);
+    int64_t ans = minWeight(index - 1, valLeft);
     // When choosing item at index
-    if (wtLeft - wt[index] >= 0) ans = max(ans, maxProfit(index - 1, wtLeft - wt[index]) + val[index]);
-    return dp[index][wtLeft] = ans;
+    if (valLeft - val[index] >= 0) ans = min(ans, minWeight(index - 1, valLeft - val[index]) + wt[index]);
+    return dp[index][valLeft] = ans;
 }
 void run_case(int64_t &tttt) {
     // cout << "#Case " << tttt << ": ";
@@ -40,7 +40,13 @@ void run_case(int64_t &tttt) {
     for (int i = 0; i < n; i++) {
         cin >> wt[i] >> val[i];
     }
-    cout << maxProfit(n - 1, w) << "\n";
+    int value = 1e5;
+    for (int val = value; val >= 0; --val) {
+        if (minWeight(n - 1, val) <= w) {
+            cout << val << "\n";
+            return;
+        }
+    }
 }
 
 int main() {

@@ -18,7 +18,7 @@
 using namespace std;
 vector<int> wt(105), val(105);
 vector<vector<int64_t>> dp(105, vector<int64_t>(100005, -1));
-
+// O(N x W)
 int64_t maxProfit(int index, int wtLeft) {
     // maxProfit(index, 0)
     if (wtLeft == 0) return 0;
