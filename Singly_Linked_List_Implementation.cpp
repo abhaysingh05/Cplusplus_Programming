@@ -120,6 +120,42 @@ Node *insertTail(Node *head, int value) {
     mover->next = newNode;
     return head;
 }
+Node *insertAtPosition(Node *head, int element, int position) {
+    if (head == NULL) {
+        if (position == 1) return new Node(element);
+        return head;
+    }
+    if (position == 1) {
+        return new Node(element, head);
+    }
+    int cnt = 0;
+    Node *temp = head;
+    while (temp != NULL) {
+        if (cnt == position - 1) {
+            Node *x = new Node(element, temp->next);
+            temp->next = x;
+            break;
+        }
+        temp = temp->next;
+    }
+    return head;
+}
+Node *insertBeforeValue(Node *head, int element, int value) {
+    if (head == NULL) return NULL;
+    if (head->data == value) {
+        return new Node(element, head);
+    }
+    Node *temp = head;
+    while (temp->next != NULL) {
+        if (temp->next->data == value) {
+            Node *x = new Node(element, temp->next);
+            temp->next = x;
+            break;
+        }
+        temp = temp->next;
+    }
+    return head;
+}
 void run_case(int64_t &tttt) {
     // cout << "#Case " << tttt << ": ";
 
@@ -128,16 +164,13 @@ void run_case(int64_t &tttt) {
     vector<int> arr(n);
     for (auto &e : arr) cin >> e;
     Node *head = convertArrayToLinkedList(arr);
-    // print(head);
     // head = removesHead(head);
-    // print(head);
     // head = removesTail(head);
-    // print(head);
     // head = removeElementByValue(head, 6);
-    // print(head);
     // head = insertHead(head, 100);
-    // print(head);
-    head = insertTail(head, 50);
+    // head = insertTail(head, 50);
+    // head = insertAtPosition(head,10,1);
+    // head = insertBeforeValue(head,10,6);
     print(head);
 }
 int main() {
