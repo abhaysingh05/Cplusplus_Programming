@@ -24,8 +24,8 @@ void run_case(int64_t &tttt) {
     cin >> n >> k;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < k; j++) {
-            char v = 'a' + j;
-            cout << v;
+            char characters = 'a' + j;
+            cout << characters;
         }
     }
     cout << "\n";
