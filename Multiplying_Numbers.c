@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 int main() {
-    char num1[1001], num2[1001];
+    char num1[201], num2[201];
     scanf("%s%s", num1, num2);
     int n1 = strlen(num1);
     int n2 = strlen(num2);
-    int num[2001];
-    for (int i = 0; i < 2001; i++) {
+    int num[401];
+    for (int i = 0; i < 401; i++) {
         num[i] = 0;
     }
     int mx = 0;

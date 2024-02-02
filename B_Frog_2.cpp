@@ -16,41 +16,24 @@
 #include <set>
 #include <vector>
 using namespace std;
-const int N = 1e5 + 10;
-int64_t k;
-vector<int64_t> dp(N);
-vector<int64_t> h(N);
-int64_t cost(int64_t n) {
-    if (n == 1) return dp[n] = 0;
-    if (n == 2) return dp[n] = abs(h[n] - h[n - 1]);
-    if (dp[n] != -1) return dp[n];
-    int64_t costs = INT64_MAX;
-    for (int i = 1; i <= k; ++i) {
-        if (n - i > 0)
-            costs = min(costs, cost(n - i) + abs(h[n] - h[n - i]));
-    }
-    return dp[n] = costs;
-}
-
-void run_case() {
-    int64_t n;
-    cin >> n >> k;
-    for (int i = 1; i <= n; ++i) {
-        cin >> h[i];
-    }
-    cost(n);
-    cout << dp[n] << "\n";
-}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
-    int tests = 1;
-    // cin >> tests;
-
-    while (tests-- > 0) {
-        fill(dp.begin(), dp.end(), -1);
-        run_case();
+    int64_t n, k;
+    cin >> n >> k;
+    vector<int64_t> heights(n);
+    for (auto &e : heights) cin >> e;
+    vector<int64_t> dp(n + 1);
+    dp[1] = 0;
+    for (int64_t i = 2; i <= n; i++) {
+        int64_t mn = INT32_MAX;
+        for (int64_t j = 1; j <= k; j++) {
+            if (i - j - 1 >= 0 && i - j >= 0)
+                mn = min(mn, dp[i - j] + abs(heights[i - 1] - heights[i - j - 1]));
+        }
+        dp[i] = mn;
     }
+    cout << dp[n] << "\n";
+    return 0;
 }
