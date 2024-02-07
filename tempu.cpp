@@ -1,35 +1,40 @@
+#include <algorithm>
+#include <array>
+#include <bitset>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <cstdint>
+#include <cstring>
+#include <functional>
+#include <iomanip>
 #include <iostream>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <random>
+#include <set>
 #include <vector>
 using namespace std;
-
-const int MOD = 1000000007;
-
-int countWays(int target) {
-    vector<int> dp(target + 1, 0);
-    dp[0] = 1;
-
-    for (int i = 1; i <= target; ++i) {
-        for (int toss = 1; toss <= 2; ++toss) {
-            if (i >= toss) {
-                dp[i] = (dp[i] + dp[i - toss]) % MOD;
-            }
-        }
-    }
-
-    return dp[target];
+const int mod = 1e9 + 7;
+void run_case(int64_t &tttt) 
+{
+    // cout << "#Case " << tttt << ": ";
+    
+    int64_t n;
+    cin >> n;
+    double phi = (1LL+sqrt(5))/2;
+    int64_t ans = (pow(phi,n)-pow((-(phi)),-n))/(sqrt(5));
+    cout << ans%mod << "\n";
 }
 
 int main() {
-    int t;
-    cin >> t;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    while (t--) {
-        int target;
-        cin >> target;
+    int64_t tests = 1;
+    // cin >> tests;
 
-        int result = countWays(target);
-        cout << result << endl;
-    }
-
-    return 0;
+    for(int64_t i = 1; i <= tests; i++)
+        run_case(i);
 }
