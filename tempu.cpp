@@ -14,18 +14,19 @@
 #include <queue>
 #include <random>
 #include <set>
+#include <stack>
 #include <vector>
 using namespace std;
-const int mod = 1e9 + 7;
-void run_case(int64_t &tttt) 
-{
+
+void run_case(int64_t &tttt) {
     // cout << "#Case " << tttt << ": ";
-    
-    int64_t n;
-    cin >> n;
-    double phi = (1LL+sqrt(5))/2;
-    int64_t ans = (pow(phi,n)-pow((-(phi)),-n))/(sqrt(5));
-    cout << ans%mod << "\n";
+
+    int a, b, e;
+    [](int a, int b)->int sum = [](int a, int b) { return a + b; };
+    cin >> a >> b >> e;
+    string c, d;
+    cin >> c >> d;
+    cout << sum(a, b) << "\n";
 }
 
 int main() {
@@ -35,6 +36,6 @@ int main() {
     int64_t tests = 1;
     // cin >> tests;
 
-    for(int64_t i = 1; i <= tests; i++)
+    for (int64_t i = 1; i <= tests; i++)
         run_case(i);
 }
