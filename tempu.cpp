@@ -1,131 +1,87 @@
+#include <algorithm>
+#include <array>
+#include <bitset>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <cstdint>
+#include <cstring>
+#include <functional>
+#include <iomanip>
 #include <iostream>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <random>
+#include <set>
+#include <stack>
 #include <vector>
 using namespace std;
-void takeInput(vector<vector<char>> &matrix, int x, int y, bool turn) {
-    if (matrix[x - 1][y - 1] == ' ' && x <= 3 && y <= 3)
-        matrix[x - 1][y - 1] = (turn ? 'X' : 'O');
-    else if (x > 3 || y > 3) {
-        while (x > 3 || y > 3) {
-            cout << "Invalid Position!! Enter other position...\n";
-            cin >> x >> y;
-            while (matrix[x - 1][y - 1] != ' ') {
-                cout << "This is occupied! Choose Another..\n";
-                cin >> x >> y;
-                if (x > 3 || y > 3) {
-                    while (x > 3 || y > 3) {
-                        cout << "Invalid Position!! Enter other position...\n";
-                        cin >> x >> y;
+class Solution {
+public:
+    int maxPoints(vector<vector<int>> &points) {
+        if (points.size() == 1) return 1;
+        int n = points.size();
+        int ans = 2;
+        for (int i = 0; i < n - 1; i++) {
+            int x1 = points[i][0], y1 = points[i][1];
+            for (int j = i + 1; j < n; j++) {
+                int x2 = points[j][0], y2 = points[j][1];
+                double m;
+                double c;
+                if (x2 - x1 != 0) {
+                    m = (double)(y2 - y1) / (x2 - x1);
+                    c = y1 - (m * x1);
+                    cout << "y=" << fixed << m << "x+" << c << "\n";
+                } else {
+                    cout << "x=" << x1 << "\n";
+                }
+                int val = 0;
+                for (int k = 0; k < n; k++) {
+                    int p1 = points[k][0], p2 = points[k][1];
+                    double epsilon = 0.0000001;
+                    if (x2 - x1 != 0) {
+                        if (abs(p2 - ((m * p1) + c)) < epsilon) {
+                            val++;
+                            cout << p1 << ',' << p2 << ' ';
+                        }
+                    } else {
+                        if (p1 == x1) {
+                            val++;
+                            cout << p1 << ',' << p2 << ' ';
+                        }
                     }
                 }
+                cout << "\n";
+                ans = max(val, ans);
             }
         }
-        matrix[x - 1][y - 1] = (turn ? 'X' : 'O');
-    } else {
-        int a, b;
-        cout << "This is occupied! Choose Another..\n";
-        cin >> a >> b;
-        if (a > 3 || b > 3) {
-            while (a > 3 || b > 3) {
-                cout << "Invalid Position!! Enter other position...\n";
-                cin >> a >> b;
-            }
-        }
-        while (matrix[a - 1][b - 1] != ' ') {
-            cout << "This is occupied! Choose Another..\n";
-            cin >> a >> b;
-            if (a > 3 || b > 3) {
-                while (a > 3 || b > 3) {
-                    cout << "Invalid Position!! Enter other position...\n";
-                    cin >> a >> b;
-                }
-            }
-        }
-        matrix[a - 1][b - 1] = (turn ? 'X' : 'O');
+        return ans;
     }
-}
-void print(vector<vector<char>> &matrix) {
-    cout << "  ";
-    for (int i = 0; i < 3; i++) {
-        cout << " " << i + 1 << "  ";
-    }
-    cout << "\n";
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (j == 0) cout << i + 1 << " ";
-            if (j < 2)
-                cout << " " << matrix[i][j] << " |";
-            else
-                cout << " " << matrix[i][j];
-        }
-        cout << "\n";
-        if (i < 2) {
-            for (int j = 0; j < 14; j++) {
-                if (j < 2)
-                    cout << " ";
-                else
-                    cout << '_';
-            }
-            cout << "\n";
-        } else {
-            cout << "\n";
-        }
-    }
-}
-int checkWin(vector<vector<char>> &matrix) {
-    vector<bool> conditions(16);
-    int ans;
-    conditions[0] = (matrix[0][0] == 'X' && matrix[0][1] == 'X' && matrix[0][2] == 'X');
-    conditions[8] = (matrix[0][0] == 'O' && matrix[0][1] == 'O' && matrix[0][2] == 'O');
-    conditions[1] = (matrix[1][0] == 'X' && matrix[1][1] == 'X' && matrix[1][2] == 'X');
-    conditions[9] = (matrix[1][0] == 'O' && matrix[1][1] == 'O' && matrix[1][2] == 'O');
-    conditions[2] = (matrix[2][0] == 'X' && matrix[2][1] == 'X' && matrix[2][2] == 'X');
-    conditions[10] = (matrix[2][0] == 'O' && matrix[2][1] == 'O' && matrix[2][2] == 'O');
-    conditions[3] = (matrix[0][0] == 'X' && matrix[1][0] == 'X' && matrix[2][0] == 'X');
-    conditions[11] = (matrix[0][0] == 'O' && matrix[1][0] == 'O' && matrix[2][0] == 'O');
-    conditions[4] = (matrix[0][1] == 'X' && matrix[1][1] == 'X' && matrix[2][1] == 'X');
-    conditions[12] = (matrix[0][1] == 'O' && matrix[1][1] == 'O' && matrix[2][1] == 'O');
-    conditions[5] = (matrix[0][2] == 'X' && matrix[1][2] == 'X' && matrix[2][2] == 'X');
-    conditions[13] = (matrix[0][2] == 'O' && matrix[1][2] == 'O' && matrix[2][2] == 'O');
-    conditions[6] = (matrix[0][0] == 'X' && matrix[1][1] == 'X' && matrix[2][2] == 'X');
-    conditions[14] = (matrix[0][0] == 'O' && matrix[1][1] == 'O' && matrix[2][2] == 'O');
-    conditions[7] = (matrix[0][2] == 'X' && matrix[1][1] == 'X' && matrix[2][0] == 'X');
-    conditions[15] = (matrix[0][2] == 'O' && matrix[1][1] == 'O' && matrix[2][0] == 'O');
-    bool val = false;
-    for (int i = 0; i < 8; i++) {
-        val = (val || conditions[i]);
-    }
-    if (val == true) return 1;
-    val = false;
-    for (int i = 8; i < 16; i++) {
-        val = (val || conditions[i]);
-    }
-    if (val == true) return 0;
-    return -1;
-}
-int main() {
-    vector<vector<char>> matrix(3, vector<char>(3, ' '));
-    cout << "Player1: O\nPlayer2: X\n";
-    bool turn = false;
-    bool tie = true;
-    for (int i = 0;; i++) {
-        int x, y;
-        if (i == 0) print(matrix);
-        cout << ((i & 1) ? "Player2 :: Enter Co-ordinate(x,y): " : "Player1 :: Enter Co-ordinate(x,y): ");
-        cin >> x >> y;
-        takeInput(matrix, x, y, turn);
-        turn = !turn;
-        print(matrix);
-        if (i >= 6) {
-            if (checkWin(matrix) == 0) {
-                cout << "Player 1 Wins i.e 'O'\n";
-                return 0;
+};
+void run_case(int64_t &tttt) {
+    // cout << "#Case " << tttt << ": ";
 
-            } else if (checkWin(matrix) == 1) {
-                cout << "Player 2 Wins i.e 'X'\n";
-                return 0;
-            }
-        }
+    int n;
+    cin >> n;
+    vector<vector<int>> A(n);
+    for (int i = 0; i < n; i++) {
+        int x, y;
+        cin >> x >> y;
+        A[i].push_back(x);
+        A[i].push_back(y);
     }
-    cout << "Tie\n";
-    return 0;
+    Solution Ob;
+    cout << Ob.maxPoints(A) << "\n";
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int64_t tests = 1;
+    // cin >> tests;
+
+    for (int64_t i = 1; i <= tests; i++)
+        run_case(i);
 }
