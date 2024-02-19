@@ -1,99 +1,56 @@
-//{ Driver Code Starts
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
 using namespace std;
+using namespace __gnu_pbds;
+// Macros
+#define ff first
+#define ss second
+#define pb push_back
+#define rep(i, a, b) for (int i = (a); i <= (b); ++i)
+#define all(x) x.begin(), x.end()
 
-// } Driver Code Ends
+// Typedef
+typedef long long ll;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>
+    ordered_set; // .find_by_order(), .order_of_key()
+/**************************************************************************************/
+int cnt = 0, n;
+vector<bool> column;
+vector<bool> diag1;
+vector<bool> diag2;
+void search(int y) {
+    if (y == n) {
+        cnt++;
+        return;
+    }
+    for (int x = 0; x < n; x++) {
+        if (column[x] || diag1[x + y] || diag2[x - y + n - 1]) continue;
+        column[x] = diag1[x + y] = diag2[x - y + n - 1] = true;
+        search(y + 1);
+        column[x] = diag1[x + y] = diag2[x - y + n - 1] = false;
+    }
+}
 
-class Solution1
-{
-    public:
-        int findNum(int n)
-        {
-          int low=0;
-          int high=5*n; //(x/5<=n)
-          int ans=low;
-          int cnt;
-          while(low<=high)
-          {
-              int mid=(low+high)/2;
-              cnt=count_zero(mid);
-              if(cnt>=n)
-              {
-                  ans=mid;
-                  high=mid-1;
-              }
-              else
-              low=mid+1;
-          }
-        }
-        
-        int count_zero(int x)
-        {
-            int deno=5;
-            int count=0;
-            while(x>=deno)
-            {
-                count+=(x/deno);
-                deno*=5;
-            }
-            return count;
-        }
-};
-class Solution
-{
-    public:
-        int count(int x)
-        {
-            int temp = 5;
-            int val = 0;
-            while(temp <= x)
-            {
-                val += x/temp;
-                temp *= 5;
-            }
-            return val;
-        }
-        int findNum(int n)
-        {
-            int l = 0;
-            int r = 5*n;
-            int mid;
-            // f f f t t t t
-            while(r - l > 1)
-            {
-                mid  = (l+r)/2;
-                if(count(mid) >= n)
-                {
-                    r = mid;
-                }
-                else
-                {
-                    l = mid + 1;
-                }
-            }
-            if(count(l) >= n)
-            {
-                return l;
-            }
-            else
-            {
-                return r;
-            }
-        }
-};
+void run_case(int &testCase) {
+    // cout << "#Case " << testCase << ": ";
 
-//{ Driver Code Starts.
-
+    cin >> n;
+    column.resize(n);
+    diag1.resize(2 * n - 1);
+    diag2.resize(2 * n - 1);
+    fill(all(column), false);
+    fill(all(diag1), false);
+    fill(all(diag2), false);
+    search(0);
+    cout << cnt << "\n";
+}
 
 int main() {
-    int t;
-    cin >> t;
-    while(t--){
-        int n;
-        cin >> n;
-        Solution ob;
-        cout <<ob.findNum(n) << endl;
-    }
-return 0;
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    int64_t tests = 1;
+    // cin >> tests;
+
+    rep(i, 1, tests) run_case(i);
 }
-// } Driver Code Ends
