@@ -1,38 +1,67 @@
-#include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
+#include <algorithm>
+#include <array>
+#include <bitset>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <cstdint>
+#include <cstring>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <random>
+#include <set>
+#include <vector>
 using namespace std;
-using namespace __gnu_pbds;
-// Macros
-#define ff first
-#define ss second
-#define pb push_back
-#define rep(i, a, b) for (int i = (a); i <= (b); ++i)
-#define all(x) x.begin(), x.end()
+const int INF = 100000;
+int32_t leastCoins(int32_t amount, vector<int32_t> &coins, vector<int> &dp) {
+    if (amount == 0) return 0;
+    if (dp[amount] != -1) return dp[amount];
 
-// Typedef
-typedef long long ll;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>
-    ordered_set; // .find_by_order(), .order_of_key()
+    int32_t ans = INT32_MAX;
+    for (int32_t coin : coins) {
+        if (amount - coin < 0) continue;
+        ans = min(ans + 0LL, leastCoins(amount - coin, coins, dp) + 1LL);
+    }
+    return dp[amount] = ans;
+}
+int32_t coinChange(vector<int32_t> &coins, int32_t amount, vector<int> &dp) {
+    int32_t ans = leastCoins(amount, coins, dp);
+    return ans == INT32_MAX ? -1 : ans;
+}
+void run_case(int64_t &tttt) {
+    // cout << "#Case " << tttt << ": ";
 
-// Constants
-const int INF = (int)1e9;
-const int mod = INF + 7;
-/**************************************************************************************/
-
-void runCase(int &testCase) {
-    // cout << "#Case " << testCase << ": ";
-
-    
+    vector<int32_t> coins = {1, 3, 6, 10, 16};
+    vector<int> dp(INF, -1);
+    int32_t amount;
+    cin >> amount;
+    int ans = coinChange(coins, amount, dp);
+    cout << amount / 16 + (dp[16 + amount % 16]) - 1 << "\n";
 }
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    ll tests = 1;
+    int64_t tests = 1;
     cin >> tests;
 
-    rep(i, 1, tests) runCase(i);
-
-    return 0;
+    for (int64_t i = 1; i <= tests; i++)
+        run_case(i);
 }
+//
+// 399
+// 290
+// 158
+// 159
+// 221
+// 161
+// 89
+// 90
+// 335
+// 608
+// 10 6366 4636 2523 2532 3542 2564 1412 1433 5355 9760

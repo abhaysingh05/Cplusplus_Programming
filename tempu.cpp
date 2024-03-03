@@ -1,61 +1,47 @@
-#include <algorithm>
-#include <array>
-#include <bitset>
-#include <cassert>
-#include <chrono>
-#include <cmath>
-#include <cstdint>
-#include <cstring>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <numeric>
-#include <queue>
-#include <random>
-#include <set>
-#include <stack>
-#include <vector>
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+
 using namespace std;
 
-class Solution {
+
+// } Driver Code Ends
+//User function template for C++
+class Solution{
 public:
-    int func(int n, vector<int> &nums, vector<int> &vis,int left,int right) {
-        int cost1 = left * nums[n] * right;
-        left = 
-        vis[n] = 1;
-        int mx = -1;
-        for(int i = 0; i < nums.size(); i++)
-        {
-            if(vis[i] == 1) continue;
-            left = 
-            int cost = ((i - 1 < 0) ? 1 : nums[i - 1]) * nums[i] * ((i + 1 > nums.size() - 1) ? 1 : nums[i + 1]);
-        }
-    }
-    int maxCoins(vector<int> &nums) {
-        vector<int> vis(nums.size(), 0);
-        return func(nums.size(), nums, vis,((nums.size() - 1 < 0) ? 1 : nums[nums.size() - 1]),1);
-    }
+	// The main function that returns the arrangement with the largest value as
+	// string.
+	// The function accepts a vector of strings
+	string printLargest(int n, vector<string> &arr) {
+	    sort(arr.begin(),arr.end(),[&](string a, string b){
+	        string s1 = ""+a+b;
+	        string s2 = ""+b+a;
+	        return s1>s2;
+	    });
+	    string ans;
+	    for(int i = 0; i<n; ++i)
+	    {
+	        ans.append(arr[i]);
+	    }
+	    return ans;
+	}
 };
 
-void run_case(int64_t &tttt) {
-    cout << "#Case " << tttt << ": ";
-
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    for (auto &e : v) cin >> e;
-    Solution ob;
-    cout << ob.maxCoins(v) << "\n";
-}
+//{ Driver Code Starts.
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int64_t tests = 1;
-    cin >> tests;
-
-    for (int64_t i = 1; i <= tests; i++)
-        run_case(i);
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, i;
+        cin >> n;
+        vector<string> arr(n);
+        for (i = 0; i < n; i++) {
+            cin >> arr[i];
+        }
+        Solution ob;
+        auto ans = ob.printLargest(n, arr);
+        cout << ans << "\n";
+    }
+    return 0;
 }
+// } Driver Code Ends
