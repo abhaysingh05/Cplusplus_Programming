@@ -23,19 +23,38 @@ const int mod = INF + 7;
 /**************************************************************************************/
 
 void runCase(int &testCase) {
-	// cout << "#Case " << testCase << ": ";
+    // cout << "#Case " << testCase << ": ";
 
-	// Your Code Here
+    int n;
+    string s;
+    cin >> s;
+    n = s.size();
+    int ans = 0;
+    for (int len = 1; len * 2 <= n; len++) {
+        vector<int> val(n, 0);
+        for (int i = 0; i + len < n; i++) {
+            val[i] = ((s[i] == s[i + len]) || s[i] == '?' || s[i + len] == '?');
+        }
+        rep(i, 1, n - 1) {
+            val[i] += val[i - 1];
+        }
+        if (val[len - 1] == len) ans = max(ans, len);
+        for (int i = len; i < n; i++) {
+            if ((val[i] - val[i - len] == len))
+                ans = max(ans, len);
+        }
+    }
+    cout << 2 * ans << "\n";
 }
 
 int32_t main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
-	int tests = 1;
-	// cin >> tests;
+    int tests = 1;
+    cin >> tests;
 
-	rep(i, 1, tests) runCase(i);
+    rep(i, 1, tests) runCase(i);
 
-	return 0;
+    return 0;
 }

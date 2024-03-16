@@ -13,7 +13,7 @@ using namespace __gnu_pbds;
 // Typedef
 typedef long long ll;
 template <class T>
-using _set = __gnu_pbds::tree<T, __gnu_pbds::null_type, less<T>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
+using ordered_set = __gnu_pbds::tree<T, __gnu_pbds::null_type, less<T>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
 // X.find_by_order(k) return iterator of kth element. 0 indexed.
 // X.order_of_key(k) returns count of elements strictly less than k.
 
@@ -23,19 +23,36 @@ const int mod = INF + 7;
 /**************************************************************************************/
 
 void runCase(int &testCase) {
-	// cout << "#Case " << testCase << ": ";
+    // cout << "#Case " << testCase << ": ";
 
-	// Your Code Here
+    int n;
+    cin >> n;
+    string s;
+    if (n == 1) {
+        cout << "NO\n";
+        return;
+    }
+    if (n & 1) {
+        cout << "NO\n";
+        return;
+    } else {
+        for (int i = 0; i < n; i += 2) {
+            s.pb('A' + i / 2);
+            s.pb('A' + i / 2);
+        }
+    }
+    cout << "YES\n";
+    cout << s << "\n";
 }
 
 int32_t main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
-	int tests = 1;
-	// cin >> tests;
+    int tests = 1;
+    cin >> tests;
 
-	rep(i, 1, tests) runCase(i);
+    rep(i, 1, tests) runCase(i);
 
-	return 0;
+    return 0;
 }
