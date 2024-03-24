@@ -6,8 +6,6 @@ using namespace __gnu_pbds;
 #define ff first
 #define ss second
 #define pb push_back
-#define rep(i, a, b) for (int i = (a); i <= (b); ++i)
-#define rrep(i, a, b) for (int i = (a); i >= (b); --i)
 #define all(x) x.begin(), x.end()
 
 // Typedef
