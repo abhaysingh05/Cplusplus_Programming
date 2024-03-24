@@ -23,19 +23,19 @@ const int mod = INF + 7;
 /**************************************************************************************/
 
 void runCase(int &testCase) {
-	// cout << "#Case " << testCase << ": ";
+    // cout << "#Case " << testCase << ": ";
 
-	// Your Code Here
+    // Your code here
 }
 
 int32_t main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
-	int tests = 1;
-	// cin >> tests;
+    int tests = 1;
+    cin >> tests;
 
-	rep(i, 1, tests) runCase(i);
+    rep(i, 1, tests) runCase(i);
 
-	return 0;
+    return 0;
 }
